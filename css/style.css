@@ -1,0 +1,6 @@
+/* Bedirhan Yıldırım reset.css */
+body {background-color: #ffffff; font: 15px/19px Arial; margin: 0 auto}
+img {border: none}
+a {text-decoration: none}
+table,tr,td,ul,li,h1,h2,h3,h4,h5,h6,p,from,input,textarea {padding: 0; margin: 0; border: none; list-style-type: none}
+:focus {outline: none}

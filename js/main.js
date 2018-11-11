@@ -13,10 +13,10 @@ class Person {
         var cMonth = 0
         var mp = this.monthlyPayment
         var b = this.budget
-        while (b >= 0) {
+        while (b > 0) {
             cMonth += 1
             if (cMonth % 13 == 0) {
-                mp *= 1.15
+                mp = Math.ceil(mp * 1.15)
             }
             if (b < mp) {
                 mp = b
@@ -65,6 +65,11 @@ class formatDate {
     nextMonth () {
         this.monthIndex += 1
         this.monthName = this.monthNames[this.monthIndex]
+    }
+
+    formated (format = "-") {
+        format == "" ? format = "-" : null
+        return this.year + format + (this.monthIndex+1)
     }
 
     toString (format = "/") {

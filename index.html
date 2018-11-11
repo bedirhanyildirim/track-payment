@@ -10,9 +10,19 @@
     <script type="text/javascript" src="js/main.js"></script>
     <script>
         var date = new formatDate()
+        function print () {
+            var a = document.getElementById("tarih").value
+            console.log(a)
+            var b = date.formated()
+            console.log(b)
+            console.log(a==b)
+        }
     </script>
 </head>
 <body>
-    
+    <form>
+        Birthday:
+        <input id="tarih" type="month" name="bday-month" value="2018-11" onchange="print()">
+    </form>
 </body>
 </html>

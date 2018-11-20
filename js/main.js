@@ -1,9 +1,9 @@
 class Person {
-    constructor (name, budget, monthlyPayment) {
+    constructor (name, budget, startDate, monthlyPayment) {
         this.id = Math.floor(Math.random()*90000000) + 10000000
         this.name = name
         this.budget = budget
-        //this.startDate = startDate
+        this.startDate = startDate
         this.monthlyPayment = monthlyPayment
         this.payment = this.calcMPCount()
     }
@@ -28,6 +28,27 @@ class Person {
             dizi.push({month: cMonth, payment: mp, debt: b})
         }
 
+        const paymentMap = new Map()
+        let stepper = 0
+        let fakeDate = this.startDate
+        let fakeBudget = this.budget
+        let fakePayment = this.monthlyPayment
+        let fakeDebt = 0
+
+        while (fakeBudget > 0) {
+            // yıllık taksit zammı
+            if (stepper % 12 == 0) {
+                fakePayment = Math.ceil(fakePayment * 1.15)
+            }
+            //son ödeme 
+            if (fakeBudget < fakePayment) {
+                fakePayment = fakeBudget
+                fakeBudget = 0
+            } else {
+
+            }
+        }
+
         return dizi
     }
 
@@ -45,26 +66,44 @@ class Payment {
 
 class formatDate {
     constructor (d = new Date()) {
-        this.monthNames = [
+        this.monthIndex = d.getMonth()
+        this.monthName = formatDate.monthNames(this.monthIndex)
+        this.year = d.getFullYear()
+    }
+
+    static monthNames (index) {
+        let dizi = [
             "Ocak", "Şubat", "Mart",
             "Nisan", "Mayıs", "Haziran",
             "Temmuz", "Ağustos", "Eylül",
             "Ekim", "Kasım", "Aralık"
         ]
-        this.day = d.getDate()
-        this.monthIndex = d.getMonth()
-        this.monthName = this.monthNames[this.monthIndex]
-        this.year = d.getFullYear()
+        if (index == undefined) {
+            return dizi
+        } else {
+            return dizi[index]
+        }
+        
     }
 
     previousMonth(){
-        this.monthIndex = this.monthIndex - 1
-        this.monthName = this.monthNames[this.monthIndex]
+        if ((this.monthIndex -1) == -1) {
+            this.monthIndex = 11
+            this.year -= 1
+        } else {
+            this.monthIndex -= 1
+        }
+        this.monthName = formatDate.monthNames(this.monthIndex)
     }
 
     nextMonth () {
-        this.monthIndex += 1
-        this.monthName = this.monthNames[this.monthIndex]
+        if ((this.monthIndex + 1) == 12) {
+            this.monthIndex = 0
+            this.year += 1
+        } else {
+            this.monthIndex += 1
+        }
+        this.monthName = formatDate.monthNames(this.monthIndex)
     }
 
     formated (format = "-") {
@@ -74,6 +113,6 @@ class formatDate {
 
     toString (format = "/") {
         format == "" ? format = "/" : null
-        return this.day + format + this.monthName + format + this.year
+        return this.monthName + format + this.year
     }
 }
